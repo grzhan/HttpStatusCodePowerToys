@@ -1,0 +1,62 @@
+# Binaries for programs and libraries
+bin/
+obj/
+out/
+
+# NuGet Packages Directory
+packages/
+!packages/README.txt
+
+# MSBuild Temporary Files
+*.suo
+*.user
+*.vspscc
+*.vssscc
+*.csproj.user
+*.csproj.vspscc
+*.vbproj.user
+*.vbproj.vspscc
+*.fsproj.user
+*.fsproj.vspscc
+*.vcxproj.user
+*.vcxproj.vspscc
+
+# Build Artifacts
+*.dll
+*.exe
+*.pdb
+*.mdb
+*.dll.config
+*.exe.config
+*.log
+*.bak
+*.tmp
+
+# MSTest Test Results
+TestResults/
+*_TestResults/
+
+# NUnit Test Results
+*.TestLog.xml
+*.TestResult.xml
+
+# Visual Studio Cache/Generated files
+.vs/
+*.cache
+*.lock.wpd
+*.mdf
+*.ldf
+*.sqlite3
+
+# Roslyn Compiler Generated Files
+*.rsproj
+*.rsp
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# JetBrains Rider
+.Rider/
+*.idea/
+*.sln.iml

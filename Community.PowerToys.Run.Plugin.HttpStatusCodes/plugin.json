@@ -1,0 +1,14 @@
+{
+  "ID": "8419E21B985441A9A06C4B6264422694",
+  "ActionKeyword": "http",
+  "IsGlobal": false,
+  "Name": "Http Status Codes",
+  "Author": "grzhan",
+  "Version": "0.1.0",
+  "Language": "csharp",
+  "Website": "https://github.com/hlaueriksson/Community.PowerToys.Run.Plugin.HttpStatusCodes",
+  "ExecuteFileName": "Community.PowerToys.Run.Plugin.HttpStatusCodes.dll",
+  "IcoPathDark": "Images\\httpstatuscodes.dark.png",
+  "IcoPathLight": "Images\\httpstatuscodes.light.png",
+  "DynamicLoading": false
+}
