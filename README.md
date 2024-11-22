@@ -17,6 +17,11 @@ Hitting return opens a browser window with the proper RFC for that status code.
 3. Extract it to `%LOCALAPPDATA%\Microsoft\PowerToys\PowerToys Run\Plugins\`.
 4. Start PowerToys.
 
+## Usage
+
++ `http {code}`
+
+
 ## License
 
 This software is licensed under the [MIT licence](https://github.com/grzhan/HttpStatusCodePowerToys/blob/main/LICENSE)
