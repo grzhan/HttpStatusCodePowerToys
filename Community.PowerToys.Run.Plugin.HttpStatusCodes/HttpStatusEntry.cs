@@ -45,12 +45,16 @@ public static class HttpStatusCatalog
        {"416", new HttpStatusEntry("416", "Range Not Satisfiable", "The client has asked for a portion of the file (byte serving), but the server cannot supply that portion", "http://tools.ietf.org/html/rfc7233#section-4.4")},
        {"417", new HttpStatusEntry("417", "Expectation Failed", "The server cannot meet the requirements of the Expect request-header field", "http://tools.ietf.org/html/rfc7231#section-6.5.14")},
        {"426", new HttpStatusEntry("426", "Upgrade Required", "The client should switch to a different protocol", "http://tools.ietf.org/html/rfc7231#section-6.5.15")},
+       {"428", new HttpStatusEntry("428", "Precondition Required", "The origin server requires the request to be conditional.", "http://tools.ietf.org/html/rfc6585#section-3")},
+       {"429", new HttpStatusEntry("429", "Too Many Requests", "The user has sent too many requests in a given amount of time (rate limiting).", "http://tools.ietf.org/html/rfc6585#section-4")},
+       {"431", new HttpStatusEntry("431", "Request Header Fields Too Large", "The server is unwilling to process the request because its header fields are too large.", "http://tools.ietf.org/html/rfc6585#section-5")},
        {"500", new HttpStatusEntry("500", "Internal Server Error", "The server encountered an unexpected condition that prevented it from fulfilling the request", "http://tools.ietf.org/html/rfc7231#section-6.6.1")},
        {"501", new HttpStatusEntry("501", "Not Implemented", "The server does not support the functionality required to fulfill the request", "http://tools.ietf.org/html/rfc7231#section-6.6.2")},
        {"502", new HttpStatusEntry("502", "Bad Gateway", "The server, while acting as a gateway or proxy, received an invalid response from an inbound server it accessed while attempting to fulfill the request", "http://tools.ietf.org/html/rfc7231#section-6.6.3")},
        {"503", new HttpStatusEntry("503", "Service Unavailable", "The server is currently unable to handle the request due to a temporary overload or scheduled maintenance", "http://tools.ietf.org/html/rfc7231#section-6.6.4")},
        {"504", new HttpStatusEntry("504", "Gateway Timeout", "The server, while acting as a gateway or proxy, did not receive a timely response from an upstream server", "http://tools.ietf.org/html/rfc7231#section-6.6.5")},
        {"505", new HttpStatusEntry("505", "HTTP Version Not Supported", "The server does not support, or refuses to support, the major version of HTTP that was used in the request", "http://tools.ietf.org/html/rfc7231#section-6.6.6")},
+       {"511", new HttpStatusEntry("511", "Network Authentication Required", "The client needs to authenticate to gain network access.", "http://tools.ietf.org/html/rfc6585#section-6")}
     };
     
     /// <summary>
