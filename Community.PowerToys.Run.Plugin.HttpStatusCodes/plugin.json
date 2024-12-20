@@ -4,7 +4,7 @@
   "IsGlobal": false,
   "Name": "Http Status Codes",
   "Author": "grzhan",
-  "Version": "0.1.0",
+  "Version": "0.1.1",
   "Language": "csharp",
   "Website": "https://github.com/hlaueriksson/Community.PowerToys.Run.Plugin.HttpStatusCodes",
   "ExecuteFileName": "Community.PowerToys.Run.Plugin.HttpStatusCodes.dll",
