@@ -2,7 +2,11 @@ using ManagedCommon;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Windows.Controls;
+using Microsoft.PowerToys.Settings.UI.Library;
 using Wox.Infrastructure;
+using Wox.Infrastructure.Storage;
 using Wox.Plugin;
 using BrowserInfo = Wox.Plugin.Common.DefaultBrowserInfo;
 
@@ -11,7 +15,7 @@ namespace Community.PowerToys.Run.Plugin.HttpStatusCodes
     /// <summary>
     /// Main class of this plugin that implement all used interfaces.
     /// </summary>
-    public class Main : IPlugin, IDisposable
+    public class Main : IPlugin, IDisposable, ISettingProvider, ISavable
     {
         /// <summary>
         /// ID of the plugin.
@@ -33,6 +37,43 @@ namespace Community.PowerToys.Run.Plugin.HttpStatusCodes
         private string IconPath { get; set; }
 
         private bool Disposed { get; set; }
+
+        private readonly PluginJsonStorage<PluginSettings> _storage;
+        private readonly PluginSettings _settings;
+
+        public Main()
+        {
+            _storage = new PluginJsonStorage<PluginSettings>();
+            _settings = _storage.Load();
+        }
+
+        public void Save()
+        {
+            _storage.Save();
+        }
+
+        public Control CreateSettingPanel()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<PluginAdditionalOption> AdditionalOptions => new List<PluginAdditionalOption>()
+        {
+            new PluginAdditionalOption()
+            {
+                Key = "ReferenceType",
+                DisplayLabel = "Reference Type",
+                DisplayDescription =
+                    "Configuration to determine the type of documentation (RFC or MDN) referenced upon pressing Enter or clicking to open the browser after finding the corresponding HTTP status code.",
+                PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Combobox,
+                ComboBoxItems = new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("RFC", "0"),
+                    new KeyValuePair<string, string>("MDN", "1"),
+                },
+                ComboBoxValue = (int)_settings.ReferenceType
+            }
+        };
 
         /// <summary>
         /// Return a filtered list, based on the given query.
@@ -57,15 +98,21 @@ namespace Community.PowerToys.Run.Plugin.HttpStatusCodes
                         IcoPath = IconPath,
                         Action = _ =>
                         {
+                            var url = httpStatus!.DefinedIn;
+                            if (_settings.ReferenceType == ReferenceType.Mdn)
+                            {
+                                url = "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/" + httpStatus!.Code;
+                            }
+                            
                             try {
                                 if (Helper.OpenCommandInShell(BrowserInfo.Path, BrowserInfo.ArgumentsPattern,
-                                        httpStatus?.DefinedIn)) return true;
+                                        url)) return true;
                             } catch (InvalidOperationException) {
                                 // See https://github.com/grzhan/HttpStatusCodePowerToys/issues/3
                                 // In some operating systems (perhaps Windows 10),
                                 // the DefaultBrowserInfo fails to return the correct browser path.
                                 // Therefore, attempt to launch the browser directly based on the URL.
-                                Process.Start(new ProcessStartInfo(httpStatus!.DefinedIn)
+                                Process.Start(new ProcessStartInfo(url)
                                 {
                                     UseShellExecute = true
                                 });
@@ -115,6 +162,20 @@ namespace Community.PowerToys.Run.Plugin.HttpStatusCodes
             }
 
             Disposed = true;
+        }
+
+        public void UpdateSettings(PowerLauncherPluginSettings settings)
+        {
+            var refOption = 0;
+            if (settings is { AdditionalOptions: not null })
+            {
+                var referenceType =
+                    settings.AdditionalOptions.FirstOrDefault(x => x.Key == "ReferenceType");
+                refOption = referenceType?.ComboBoxValue ?? refOption;
+                _settings.ReferenceType = (ReferenceType)refOption;
+            }
+
+            Save();
         }
 
         private void UpdateIconPath(Theme theme) => IconPath = theme is Theme.Light or Theme.HighContrastWhite ? "Images/httpstatuscodes.light.png" : "Images/httpstatuscodes.dark.png";

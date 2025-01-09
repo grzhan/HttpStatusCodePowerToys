@@ -6,7 +6,7 @@
 
 A [PowerToys Run](https://learn.microsoft.com/windows/powertoys/run) plugin for searching HTTP status codes. This plugin displays the codes along with their reason-phrase (e.g. "Not Found") and a short sentence describing the function of this code.
 
-Hitting return opens a browser window with the proper RFC for that status code.
+Hitting return opens a browser window with the proper RFC (or [MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)) for that status code.
 
 ![httpstatuscode](httpstatuscodes.gif)
 
