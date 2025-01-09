@@ -1,6 +1,7 @@
 using ManagedCommon;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Wox.Infrastructure;
 using Wox.Plugin;
 using BrowserInfo = Wox.Plugin.Common.DefaultBrowserInfo;
@@ -56,8 +57,19 @@ namespace Community.PowerToys.Run.Plugin.HttpStatusCodes
                         IcoPath = IconPath,
                         Action = _ =>
                         {
-                            if (Helper.OpenCommandInShell(BrowserInfo.Path, BrowserInfo.ArgumentsPattern,
-                                    httpStatus?.DefinedIn)) return true;
+                            try {
+                                if (Helper.OpenCommandInShell(BrowserInfo.Path, BrowserInfo.ArgumentsPattern,
+                                        httpStatus?.DefinedIn)) return true;
+                            } catch (InvalidOperationException) {
+                                // See https://github.com/grzhan/HttpStatusCodePowerToys/issues/3
+                                // In some operating systems (perhaps Windows 10),
+                                // the DefaultBrowserInfo fails to return the correct browser path.
+                                // Therefore, attempt to launch the browser directly based on the URL.
+                                Process.Start(new ProcessStartInfo(httpStatus!.DefinedIn)
+                                {
+                                    UseShellExecute = true
+                                });
+                            }
                             ErrorHandler.OnPluginError();
                             return false;
                         },
